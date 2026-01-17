@@ -520,4 +520,19 @@ app.get("/api/admin/all-transactions", isAdmin, async (req, res) => {
   res.json(rows);
 });
 
+const db = require("./firebase");
+
+app.get("/test-firebase", async (req, res) => {
+  try {
+    await db.collection("test").add({
+      message: "Firebase connected",
+      time: new Date(),
+    });
+
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
