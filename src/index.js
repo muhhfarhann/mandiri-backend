@@ -47,15 +47,15 @@ const sessionStore = new MySQLStore(dbOptions);
 app.use(
   session({
     key: "mandiri_session_id",
-    secret: "rahasia_super_aman_ganti_dengan_string_acak",
+    secret: "secret",
     store: sessionStore,
     resave: false,
     saveUninitialized: false,
     cookie: {
       maxAge: 86400000,
       httpOnly: true,
-      secure: false, // true hanya jika HTTPS
-      sameSite: "lax", // ⬅⬅⬅ WAJIB UNTUK DEV
+      secure: true, // true hanya jika HTTPS
+      sameSite: "none",
       maxAge: 1000 * 60 * 60 * 24,
     },
   })
