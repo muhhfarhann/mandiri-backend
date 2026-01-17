@@ -16,7 +16,7 @@ const fs = require("fs"); // Tambahkan fs
 // === 1. MIDDLEWARE ===
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://mandiri-frontend.vercel.app",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
   })
