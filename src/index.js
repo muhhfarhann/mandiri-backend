@@ -164,6 +164,9 @@ app.post("/api/admin/login", async (req, res) => {
     if (rows.length === 0)
       return res.status(401).json({ message: "Admin tidak ditemukan" });
 
+    const admin = await Admin.findOne({ where: { username } });
+    if (!admin) return res.status(401).json({ message: "Login gagal" });
+
     const isMatch = await bcrypt.compare(password, rows[0].password);
     if (!isMatch) return res.status(401).json({ message: "Password salah" });
 
