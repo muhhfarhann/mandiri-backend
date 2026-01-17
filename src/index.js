@@ -18,7 +18,7 @@ app.use(
   cors({
     origin: "https://mandiri-frontend.vercel.app",
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+    // methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
   })
 );
 
@@ -46,7 +46,7 @@ const sessionStore = new MySQLStore(dbOptions);
 
 app.use(
   session({
-    key: "mandiri_session_id",
+    key: "mandiri.sid",
     secret: "secret",
     store: sessionStore,
     resave: false,
@@ -56,7 +56,6 @@ app.use(
       httpOnly: true,
       secure: true, // true hanya jika HTTPS
       sameSite: "none",
-      maxAge: 1000 * 60 * 60 * 24,
     },
   })
 );
