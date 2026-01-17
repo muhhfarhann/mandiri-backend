@@ -259,11 +259,20 @@ app.put("/api/user/profile", upload.single("profile_pic"), async (req, res) => {
 // GET All Products (Public - Dipakai di Halaman Produk & Inventory)
 app.get("/api/products", async (req, res) => {
   try {
-    const [rows] = await pool.query("SELECT * FROM products ORDER BY id DESC");
-    res.json(rows);
+    const snapshot = await db
+      .collection("products")
+      .where("is_active", "==", true)
+      .get();
+
+    const products = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    res.json(products);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: "Failed to fetch products" });
   }
 });
 
