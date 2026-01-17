@@ -56,6 +56,7 @@ app.use(
       httpOnly: true,
       secure: false, // true hanya jika HTTPS
       sameSite: "lax", // ⬅⬅⬅ WAJIB UNTUK DEV
+      maxAge: 1000 * 60 * 60 * 24,
     },
   })
 );
