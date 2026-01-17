@@ -260,9 +260,7 @@ app.put("/api/user/profile", upload.single("profile_pic"), async (req, res) => {
 // GET All Products (Public - Dipakai di Halaman Produk & Inventory)
 app.get("/api/products", async (req, res) => {
   try {
-    const [rows] = await pool.query(
-      "SELECT * FROM products WHERE is_active = 1 ORDER BY id DESC"
-    );
+    const [rows] = await pool.query("SELECT * FROM products ORDER BY id DESC");
     res.json(rows);
   } catch (err) {
     console.error(err);
@@ -469,9 +467,7 @@ app.get("/api/admin/dashboard-stats", isAdmin, async (req, res) => {
       "SELECT COUNT(*) as total FROM products WHERE stock = 0 AND is_active = 1"
     );
 
-    const [[tp]] = await pool.query(
-      "SELECT COUNT(*) as total FROM products WHERE is_active = 1"
-    );
+    const [[tp]] = await pool.query("SELECT COUNT(*) as total FROM products");
 
     const [[tc]] = await pool.query(
       "SELECT COUNT(DISTINCT customer_email) as total FROM orders"
