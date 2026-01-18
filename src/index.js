@@ -8,6 +8,8 @@ const MySQLStore = require("express-mysql-session")(session);
 const path = require("path");
 const multer = require("multer");
 
+const pool = require("./db");
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -269,10 +271,7 @@ app.put("/api/user/profile", upload.single("profile_pic"), async (req, res) => {
 // GET All Products (Public - Dipakai di Halaman Produk & Inventory)
 app.get("/api/products", async (req, res) => {
   try {
-    const snapshot = await db
-      .collection("products")
-      .where("is_active", "==", true)
-      .get();
+    const [rows] = await pool.query("SELECT * FROM products");
 
     const products = snapshot.docs.map((doc) => ({
       id: doc.id,
@@ -537,21 +536,6 @@ app.get("/api/admin/all-transactions", isAdmin, async (req, res) => {
     "SELECT id, customer_name, total_amount, order_date, status FROM orders ORDER BY order_date DESC"
   );
   res.json(rows);
-});
-
-const db = require("./firebase");
-
-app.get("/test-firebase", async (req, res) => {
-  try {
-    await db.collection("test").add({
-      message: "Firebase connected",
-      time: new Date(),
-    });
-
-    res.json({ success: true });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
 });
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
